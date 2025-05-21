@@ -8,6 +8,7 @@ use App\Models\PlatfromAdmin;
 use App\Models\SchoolType;
 use App\Models\PlatfromRole;
 use App\Models\Account;
+use Illuminate\Support\Facades\DB;
 
 class School extends Model
 {
@@ -27,5 +28,17 @@ class School extends Model
     }
     public function accounts(){
         return $this->HasMany(Account::class,'school_key','school_key');
+    }
+
+    public function getUsersAttribute (){
+       return DB::table('users')
+            ->join('accounts', 'users.user_key', '=', 'accounts.user_key')
+            ->where('accounts.school_key', $this->school_key)
+            ->select('users.*')
+            ->get();
+    }
+
+    public function getUsersByRole($roleId){
+        return $this->users->where('role_id',$roleId);
     }
 }

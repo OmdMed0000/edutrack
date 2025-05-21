@@ -3,63 +3,72 @@ import {
   CalendarFold, Sun, Moon, LogOut,
   TrafficCone, History, Users, Bolt, GraduationCap,CheckCircle
 } from 'lucide-react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useCallback } from 'react';
 
+import { useState, useCallback } from 'react';
+import { usePage } from '@inertiajs/react';
+import { Link } from '@inertiajs/react'
+import { route } from 'ziggy-js';
+
+const homePage = {
+  'Admin' : 'admin.dashboad',
+  'Absence Manager' : 'absenceManager.dashboad',
+  'Teacher' : 'teacher.dashboad',
+  'Student' : 'student.dashboad',
+}
 const links = {
   'Admin': [
     { 
       pageName: 'Dashboard',
-      pageLink: '/',
+      routeName: 'admin.dashboard',
       description: 'Overview and analytics'
     },
     { 
       pageName: 'Human Resources',
-      pageLink: '/humanResources',
+      routeName: 'humanResources',
       description: 'Manage staff and personnel'
     },
     { 
       pageName: 'School Resources',
-      pageLink: '/schoolResources',
+      routeName: 'schoolResources',
       description: 'Manage school assets'
     },
     { 
       pageName: 'Historiques',
-      pageLink: '/historique',
+      routeName: 'archive',
       description: 'View activity history'
     },
     { 
       pageName: 'Configuration',
-      pageLink: '/configuration',
+      routeName: 'configuration',
       description: 'System settings'
     }
   ],
   'Absence Manager': [
     {
       pageName: 'Dashboard',
-      pageLink: '/',
+      routeName: 'absenceManager.dashboard',
       description: 'Overview and analytics'
     },
 
 
     {
       pageName: 'Justification',
-      pageLink: '/justification',
+      routeName: 'justification',
       description: 'Give a reason for the absence'
     },
     {
       pageName: 'Absence List',
-      pageLink: '/absenceListes',
+      routeName: 'absence.lists',
       description: 'View and manage absence list'
     },
     {
       pageName: 'Schedules',
-      pageLink: '/schedules',
+      routeName: 'schedules.lists',
       description: 'View groups schedule'
     },  
     {
       pageName: 'Students',
-      pageLink: '/students',
+      routeName: 'students',
       description: 'View students list'
     }
 
@@ -68,19 +77,19 @@ const links = {
   'Teacher': [
     { 
       pageName: 'Schedule',
-      pageLink: '/',
+      routeName: 'teacher.dashboard',
       description: 'View and manage schedule',
      
     },
     {
       pageName: 'Track Progress',
-      pageLink: '/progress',
+      routeName: 'teahcer.progress',
       description: 'Monitor student progress',
    
     },
     {
       pageName: 'Schedules Archive',
-      pageLink: '/schedulesArchive/T005',
+      routeName: 'teacher.schedules.archive',
       description: 'View schedule archive',
     }
   ]
@@ -108,10 +117,13 @@ const icons = {
   }
 };
 
-export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const path = location.pathname;
+export default function SideBar({ darkMode, setDarkMode }) {
+
+
+  const user = usePage().props.auth.user;
+  const role = usePage().props.auth.role.role_name;
+  const routeName = usePage().props.routeName;
+ 
   const [isExpanded, setIsExpanded] = useState(false);
   const [hoverTimeout, setHoverTimeout] = useState(null);
 
@@ -126,10 +138,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
   }, [hoverTimeout]);
 
   const logOut = () => {
-    localStorage.setItem('userRole', false);
     localStorage.removeItem('theme');
-    navigate('/');
-    setRole(null);
   };
 
   const activeLinks = links[role];
@@ -157,7 +166,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
       <div className="flex flex-col h-full">
         {/* Logo Section */}
         <Link 
-          to={'/'}
+          href={homePage[role]}
           className={`flex items-center gap-3  border-b border-gray-200 dark:border-gray-800
             bg-indigo-50 dark:bg-indigo-900/50 py-4 px-4 2xl:px-6'
             ${isExpanded ? ' justify-start ' : ' justify-center '}
@@ -175,12 +184,12 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
         <nav className="flex-1 p-3 ">
           <div className="flex flex-col gap-1 2xl:gap-4">
             {activeLinks.map(link => (
-              <NavLink
-                to={link.pageLink}
+              <Link
+                href={ route(link.routeName)}
                 key={link.pageName}
                 className={`relative flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm 2xl:text-xl
                   transition-all duration-200 group
-                  ${(link.pageLink === '/' ? path === '/' : path.startsWith(link.pageLink))
+                  ${(link.routeName === routeName )
                     ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-800/50 dark:text-indigo-300 shadow-sm' 
                     : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
                   }
@@ -188,7 +197,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
                 `}
               >
                 <div className={`min-w-6 transition-colors duration-200
-                  ${(link.pageLink === '/' ? path === '/' : path.startsWith(link.pageLink))
+                  ${(link.routeName === routeName )
                     ? 'text-indigo-700 dark:text-indigo-400' 
                     : 'text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'
                   }`}>
@@ -199,7 +208,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
                   <span className="text-xs 2xl:text-base text-gray-500 dark:text-gray-400">{link.description}</span>
                 </div>
                 
-              </NavLink>
+              </Link>
             ))}
           </div>
         </nav>
@@ -229,8 +238,11 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
           </button>
 
           {/* Logout Button */}
-          <button
-            onClick={logOut}
+          <Link
+          href="/logout" 
+          method="post" 
+          as="button"
+           
             className={` flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm 2xl:text-xl font-medium
               text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20
               transition-all duration-200 ${isExpanded ? ' justify-start' : ' justify-center'}`}
@@ -241,7 +253,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
             <span className={`transition-opacity duration-300 ${isExpanded ? 'block' : 'hidden'}`}>
               Log out
             </span>
-          </button>
+          </Link>
 
           {/* User Profile */}
           <Link
@@ -254,7 +266,7 @@ export default function SideBar({ darkMode, setDarkMode, role, setRole }) {
               <User className="size-5 2xl:size-9"/>
             </div>
             <div className={`flex flex-col transition-opacity duration-300 ${isExpanded ? 'block' : 'hidden'}`}>
-              <span className="text-sm 2xl:text-xl font-medium">Adam Taylor</span>
+              <span className="text-sm 2xl:text-xl font-medium">{user.full_name}</span>
               <span className="text-xs 2xl:text-base text-gray-500 dark:text-gray-400">{role}</span>
             </div>
           </Link>

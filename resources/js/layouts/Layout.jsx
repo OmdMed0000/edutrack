@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import SideBar from "../Components/Common/SideBar";
+import SideBar from "../Components/Common/SideBar";
 
 function Layout({children}) {
  
@@ -15,11 +15,11 @@ function Layout({children}) {
 
           <div className="flex h-full ">
             {/* Sidebar */}
-            {/* <SideBar 
+            <SideBar 
               darkMode={theme} 
               setDarkMode={setTheme} 
-              role={'Admin'} 
-            /> */}
+              
+            />
             <div className={` w-full overflow-x-hidden duration-500 peer-hover:lg:ml-56 ml-16  mx-auto `}>
                 {children}
             </div>

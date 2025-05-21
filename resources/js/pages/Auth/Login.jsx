@@ -9,7 +9,7 @@ import { useForm , usePage} from '@inertiajs/react'
 export default function Login(){
     
     const { csrf } = usePage().props
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset,clearErrors } = useForm({
         user_name: '',
         password: '',
       
@@ -28,6 +28,7 @@ export default function Login(){
       }
       
       const handleChange =(name,value)=>setData(name,value);
+      const handleFocus = (name)=> clearErrors(name , 'credentials')
     
    
     return (
@@ -37,6 +38,14 @@ export default function Login(){
                     <ClipboardList size={32}/>
                     <h2 className="text-2xl font-bold">EduTrack</h2>
                 </div>
+                {
+                    errors.credentials ?
+                    <div className=' bg-red-900 text-white'>
+                        {errors.credentials}
+                    </div>
+                    :
+                    ''
+                }
                 <Form
                 submitBtnIsDisabled={processing}
                 submitBtnTitle={'Login'}
@@ -50,7 +59,7 @@ export default function Login(){
                             label={'User Name'}
                             value={data.user_name}
                             handleChange={handleChange}
-                            handleFocus={()=>{}}
+                            handleFocus={handleFocus}
                             placeHolder={"User's user name"}
                             icon={User}
                     
@@ -61,7 +70,7 @@ export default function Login(){
                             label={'Password'}
                             value={data.password}
                             handleChange={handleChange}
-                            handleFocus={()=>{}}
+                            handleFocus={handleFocus}
                             placeHolder={"Enter users's password"}
                         />  
                     </FormContainer>

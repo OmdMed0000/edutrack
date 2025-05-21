@@ -54,7 +54,6 @@ export default function QuickActions(){
         <>
         <div className='flex gap-2 items-center justify-end'>
         
-          <Link href={route('logout')} method="POST" as="button" >LogOut</Link>
           <div className="relative max-w-60 min-w-44 w-full" ref={actionRef}>
               <button 
                 className={`bg-purple-300/50 px-3 py-2 text-purple-700 group outline-none  hover:bg-purple-200 text-sm flex items-center justify-between gap-2  font-medium w-full ${activeMenu ? 'rounded-t-lg':'rounded-lg'} dark:bg-purple-950/50 dark:hover:bg-purple-900 dark:text-gray-50`} 

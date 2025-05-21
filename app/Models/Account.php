@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\School;
 use App\Models\TeacherType;
-class Account extends Model
+use Illuminate\Auth\Authenticatable as AuthAuthenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+
+class Account extends Model implements AuthenticatableContract
 {
     /** @use HasFactory<\Database\Factories\AccountFactory> */
-    use HasFactory;
+    use HasFactory , AuthAuthenticatable, Authorizable;
 
     protected $fillable = [
         'school_key',

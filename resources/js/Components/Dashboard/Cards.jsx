@@ -125,3 +125,20 @@ export function Cards({ type, total, label }) {
   );
 }
 
+
+export function CardsGrid({cardsInfo}) {
+ 
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {cardsInfo.map((card) => (
+        <Cards
+          key={card.type}
+          type={card.type}
+          total={card.total}
+          label={card.label}
+        />
+      ))}
+    </div>
+  );
+}
