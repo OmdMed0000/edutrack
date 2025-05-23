@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\StructureUnit;
 use App\Models\User;
 use Database\Factories\SchoolFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -13,6 +14,10 @@ use Database\Seeders\SchoolSeeder;
 use Database\Seeders\TeacherTypeSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\AccountSeeder;
+use Database\Seeders\StructureUnitSeeder;
+use Database\Seeders\SchoolStructureUnitsSeeder;
+use Database\Seeders\SchoolStructureInstanceSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +33,9 @@ class DatabaseSeeder extends Seeder
             PlatfromRoleSeeder::class,
             SchoolTypeSeeder::class,
             SchoolSeeder::class,
+            StructureUnitSeeder::class,
+            SchoolStructureUnitsSeeder::class,
+            SchoolStructureInstanceSeeder::class,
             TeacherTypeSeeder::class,
             UserSeeder::class,
             AccountSeeder::class

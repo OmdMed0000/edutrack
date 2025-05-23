@@ -27,6 +27,7 @@ use App\Models\AppliedEvent;
 use App\Models\ClassSession;
 use App\Models\SchoolJustificationReason;
 use App\Models\Absence;
+use App\Models\SchoolStructureInstance;
 class School extends Model
 {
     /** @use HasFactory<\Database\Factories\SchoolFactory> */
@@ -60,7 +61,24 @@ class School extends Model
     }
 
     public function school_structure(){
-        return $this->hasMany(SchoolStructureUnit::class);
+        return $this->hasMany(SchoolStructureUnit::class,'school_id');
+    }
+    public function school_structure_instances(){
+        return $this->hasMany(SchoolStructureInstance::class,'school_id');
+    }
+    public function getStructureInstanceAndUnit(){
+       
+            return DB::table('schools')
+            ->join('school_structure_instances', 'schools.id', '=', 'school_structure_instances.school_id')
+            ->join('school_structure_units', 'school_structure_units.id', '=', 'school_structure_instances.school_structure_unit_id')
+            ->join('structure_units', 'structure_units.id', '=', 'school_structure_units.unit_id')
+            ->where('schools.id', $this->id)->where('structure_units.unit_name','Levels')
+            ->select(
+                'school_structure_instances.name',
+                'structure_units.unit_name'
+            )
+            ->get();
+        
     }
     
 

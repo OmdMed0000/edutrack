@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('school_structure_unit_id')->constrained('school_structure_units')->onDelete('cascade');
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
-            $table->foreignId('parent_id')->constrained('school_structure_instances')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('school_structure_instances')->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });

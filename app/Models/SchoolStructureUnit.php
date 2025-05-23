@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\School;
 use App\Models\StructureUnit;
 use App\Models\Module;
@@ -35,5 +36,7 @@ class SchoolStructureUnit extends Model
     public function modules (){
         return $this->hasMany(Module::class,'option_id');
     }
+
+ 
 }
 

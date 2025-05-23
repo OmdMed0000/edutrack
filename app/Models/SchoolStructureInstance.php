@@ -13,7 +13,7 @@ class SchoolStructureInstance extends Model
     /** @use HasFactory<\Database\Factories\SchoolStructureInstanceFactory> */
     use HasFactory;
     protected $fillable = [
-        'school_id','parent_id','school_structure_unit_id'
+        'school_id','parent_id','school_structure_unit_id','name'
     ];
 
     public function school(){
