@@ -11,16 +11,17 @@ class SchoolTypeSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
-        $types = [
-            ['school_type'=>'Primary School'],
-            ['school_type'=>'Middle School'],
-            ['school_type'=>'High School'],
-            ['school_type'=>'University'],
-        ];
-        foreach($types as $type){
-            SchoolType::create($type);
-        };
+    public function run()
+{
+    $types = [
+        ['school_type' => 'Lycée Technique OFPPT'],
+        ['school_type' => 'Centre de Formation OFPPT'],
+        ['school_type' => 'Institut Spécialisé OFPPT'],
+        ['school_type' => 'Ecole Supérieure de Technologie'],
+    ];
+
+    foreach ($types as $type) {
+        \App\Models\SchoolType::create($type);
     }
+}
 }

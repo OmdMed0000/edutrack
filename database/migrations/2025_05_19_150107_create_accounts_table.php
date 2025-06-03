@@ -1,5 +1,5 @@
 <?php
-
+ 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('school_key');
-            $table->string('user_key');
+            $table->string('user_key')->unique();
             $table->foreignId('teacher_type_id')->nullable()->constrained('teacher_types','id')->onDelete('cascade');
             $table->string('password');
             $table->string('original_password');

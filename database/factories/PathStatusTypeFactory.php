@@ -16,8 +16,9 @@ class PathStatusTypeFactory extends Factory
      */
     public function definition(): array
     {
+        $statuses = ['Active', 'Inactive', 'Suspended', 'Completed', 'Transferred'];
         return [
-            //
+            'status_type' => $this->faker->unique()->randomElement($statuses),
         ];
     }
 }

@@ -1,19 +1,21 @@
-import { useEffect } from 'react';
+// utils/Hooks/useClickOutSide.js
+import { useEffect } from "react";
 
-function useClickOutSide(callback,popoverRef) {
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-          if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-            callback()
+export default function useClickOutSide(handler, refs) {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const isInside = Array.isArray(refs)
+        ? refs.some(ref => ref?.current?.contains(event.target))
+        : refs?.current?.contains?.(event.target);
 
-          }
-        };
-    
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, []);
+      if (!isInside) {
+        handler();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handler, refs]);
 }
-
-export default useClickOutSide;

@@ -17,7 +17,10 @@ use Database\Seeders\AccountSeeder;
 use Database\Seeders\StructureUnitSeeder;
 use Database\Seeders\SchoolStructureUnitsSeeder;
 use Database\Seeders\SchoolStructureInstanceSeeder;
-
+use Database\Seeders\AccountDemoSeeder;
+use Database\Seeders\PlatformRoleSeeder;
+use Database\Seeders\AbsenceManagerSeeder;
+use Database\Seeders\GroupSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,7 +41,11 @@ class DatabaseSeeder extends Seeder
             SchoolStructureInstanceSeeder::class,
             TeacherTypeSeeder::class,
             UserSeeder::class,
-            AccountSeeder::class
+            AccountSeeder::class,
+            AccountDemoSeeder::class,
+            PlatformRoleSeeder::class,
+            AbsenceManagerSeeder::class,
+            GroupSeeder::class,
         ]);
     }
 }

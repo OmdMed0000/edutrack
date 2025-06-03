@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PlatfromRole;
 use App\Models\Account;
+
 class User extends Model
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -13,22 +14,26 @@ class User extends Model
 
     protected $fillable = [
         'full_name',
-       'birth_date',
-       'gender',
         'email',
+        'birth_date',
+        'gender',
         'user_key',
         'phone_number',
-       'role_id',
+        'role_id'
     ];
 
-    public function role(){
-        return $this->belongsTo(PlatfromRole::class);
+    public function role()
+    {
+        return $this->belongsTo(PlatformRole::class, 'role_id');
     }
-    public function accounts(){
+
+    public function accounts()
+    {
         return $this->HasMany(Account::class);
     }
 
-    public function hasRole($role_name){
-        return $this->role && $this->role->role_name == $role_name;
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
     }
 }

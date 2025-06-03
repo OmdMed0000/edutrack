@@ -1,4 +1,4 @@
-import TableContainerHeader from "./TableContainerHeader";
+import TableContainerHeader from "./TableContainerHeader.jsx";
 import Table from "./Table";
 import { useModalContext } from "../../utils/Context/ModalContext";
 import DeleteModal from '../Modals/DeleteModal';

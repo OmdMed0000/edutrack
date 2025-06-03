@@ -15,8 +15,13 @@ class StudentPath extends Model
     use HasFactory;
 
     protected $fillable = [
-        'school_id','student_account_id','group_id',
-        'school_year_id','path_status_id'.'is_active','is_primary'
+        'school_id',
+        'student_account_id',
+        'group_id',
+        'school_year_id',
+        'path_status_id',
+        'is_active',
+        'is_primary'
     ];
 
     public function status()

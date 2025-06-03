@@ -37,6 +37,7 @@ class DashboardController extends Controller
         $school = School::where('school_key',Auth::user()->school_key)->get()->first();
      
         $studentsNumber = $school->getUsersByRole(4)->count();
+        
         $cardsInfo = [
             ["label" => 'Students', "type"=> 'students', "total"=> $studentsNumber],
             ["label" => 'Groups', "type"=> 'groups', "total"=> 0] ,
@@ -47,6 +48,7 @@ class DashboardController extends Controller
             ["label" => 'Schedules', "type"=> 'schedules', "total"=> 0 ],
             ["label" => 'Pending Requests', "type"=> 'pendingRequests', "total"=> 0],  
         ];
+        
         return Inertia::render('AbsenceManager/Dashboard',[
             'cardsInfo' => $cardsInfo
         ]);

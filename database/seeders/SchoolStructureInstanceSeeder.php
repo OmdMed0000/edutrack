@@ -2,56 +2,23 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\SchoolStructureInstance;
 
 class SchoolStructureInstanceSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        DB::table('school_structure_instances')->insert([
-            [
-                 'school_id'=>1,
-                 'parent_id'=>null,
-                 'school_structure_unit_id'=>1,
-                 'name'=>'TS'
-            ],
-            [
-                'school_id'=>1,
-                'parent_id'=>null,
-                'school_structure_unit_id'=>1,
-                'name'=>'T'
-           ],
-            [
-                        'school_id'=>1,
-                        'parent_id'=>null,
-                        'school_structure_unit_id'=>1,
-                        'name'=>'S'
-            ],
-            [
-                    'school_id'=>1,
-                    'parent_id'=>null,
-                    'school_structure_unit_id'=>1,
-                    'name'=>'Q'
-            ],
-            [
-                'school_id'=>1,
-                'parent_id'=>1,
-                'school_structure_unit_id'=>2,
-                'name'=>'DD'
-        ],
-        [
-            'school_id'=>1,
-            'parent_id'=>1,
-            'school_structure_unit_id'=>2,
-            'name'=>'ID'
-    ],
+        // Create 5 root instances (no parent)
+        $roots = SchoolStructureInstance::factory()
+            ->count(5)
+            ->root()
+            ->create();
 
-
-        ]);
+        // Create 15 child instances linked randomly to existing instances
+        SchoolStructureInstance::factory()
+            ->count(15)
+            ->child()
+            ->create();
     }
 }

@@ -28,6 +28,8 @@ use App\Models\ClassSession;
 use App\Models\SchoolJustificationReason;
 use App\Models\Absence;
 use App\Models\SchoolStructureInstance;
+use App\Models\User;
+
 class School extends Model
 {
     /** @use HasFactory<\Database\Factories\SchoolFactory> */
@@ -48,16 +50,20 @@ class School extends Model
         return $this->HasMany(Account::class,'school_key','school_key');
     }
 
-    public function getUsersAttribute (){
-       return DB::table('users')
-            ->join('accounts', 'users.user_key', '=', 'accounts.user_key')
-            ->where('accounts.school_key', $this->school_key)
-            ->select('users.*')
-            ->get();
+    public function users()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            Account::class,
+            'school_key', // Foreign key on accounts table
+            'user_key', // Foreign key on users table
+            'school_key', // Local key on schools table
+            'user_key' // Local key on accounts table
+        );
     }
 
     public function getUsersByRole($roleId){
-        return $this->users->where('role_id',$roleId);
+        return $this->users()->where('role_id', $roleId)->get();
     }
 
     public function school_structure(){

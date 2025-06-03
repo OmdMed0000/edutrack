@@ -9,15 +9,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SchoolTypeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function definition()
     {
+        $types = [
+            'Lycée Technique OFPPT',
+            'Centre de Formation OFPPT',
+            'Institut Spécialisé OFPPT',
+            'Ecole Supérieure de Technologie'
+        ];
+    
         return [
-            //
+            'school_type' => $this->faker->randomElement($types),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

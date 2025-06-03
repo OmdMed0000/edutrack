@@ -19,37 +19,46 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        
         $request->validate([
-            'user_name'=>['required','regex:/^[^\s@]+@[^\s@]+$/'],
-            'password'=>['required']
+            'user_name' => ['required'],
+            'password' => ['required']
         ]);
-        [$user_key,$school_key] = explode('@',$request->user_name); 
+
+        // Check if the username contains @ (email format)
+        if (str_contains($request->user_name, '@')) {
+            [$user_key, $school_key] = explode('@', $request->user_name);
+        } else {
+            // For absence manager format (username.school)
+            if (str_contains($request->user_name, '.')) {
+                [$user_key, $school_key] = explode('.', $request->user_name);
+            } else {
+                return back()->withErrors(['credentials' => 'Invalid username format']);
+            }
+        }
+
         $account = Account::where('user_key', $user_key)
                     ->where('school_key', $school_key)
                     ->first();
-        if(!$account || !Hash::check($request->password , $account->password)) {
-             return back()->withErrors(['credentials'=>'Invalid credentials']);
+
+        if(!$account || !Hash::check($request->password, $account->password)) {
+            return back()->withErrors(['credentials' => 'Invalid credentials']);
         }
 
         $account->update([
-            'is_active'=>true,
-            'last_login_at'=>null
+            'is_active' => true,
+            'last_login_at' => now()
         ]);
-      
 
         Auth::login($account);
         $request->session()->regenerate();
-        
 
-        switch($account->user->role->role_name){
-            case 'Admin' : return to_route('admin.dashboard');
-            case 'Absence Manager' : return to_route('absenceManager.dashboard');
-            case 'Teacher' : return to_route('teacher.dashboard');
-            case 'Student' : return to_route('student.dashboard');
+        switch($account->user->role_id){
+            case '1': return to_route('admin.dashboard');
+            case '2': return to_route('absenceManager.dashboard');
+            case '3': return to_route('teacher.dashboard');
+            case '4': return to_route('student.dashboard');
+            default: return back()->withErrors(['credentials' => 'Invalid role']);
         }
-
-       
     }
 
     public function logout(Request $request){

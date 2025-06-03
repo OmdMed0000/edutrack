@@ -10,8 +10,16 @@ class TermTypeSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
-        //
+    public function run()
+{
+    $types = [
+        ['term_type' => 'Trimestre'],
+        ['term_type' => 'Semestre'],
+        ['term_type' => 'Module'],
+    ];
+
+    foreach ($types as $type) {
+        \App\Models\TermType::create($type);
     }
+}
 }

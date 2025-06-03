@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+
 class CheckRole
 {
     /**
@@ -13,24 +14,23 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,string $role): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        
-       
-        if (!Auth::check() ) {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $user = Auth::user()?->user;
-       
-        if($user->hasRole($role)){
-          
-            return $next($request);
+        $user = Auth::user()->user;
+        
+        if (!$user) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors(['credentials' => 'User not found']);
         }
-        abort(403,'Unautourized page');
 
-    
-        
-        
+        if (!$user->hasRole($role)) {
+            abort(403, 'Unauthorized access');
+        }
+
+        return $next($request);
     }
 }

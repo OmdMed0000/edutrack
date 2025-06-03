@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\StructureUnit;
+
 class StructureUnitSeeder extends Seeder
 {
     /**
@@ -12,12 +13,20 @@ class StructureUnitSeeder extends Seeder
      */
     public function run(): void
     {
-        $units = ['Levels','Years','Fields','Options','Groups'];
-        foreach($units as $unit){
-           StructureUnit::create([
-                  'unit_name'=>$unit
-           ]);
+        $units = [
+            'Level' => 'School levels (Elementary, Middle, High)',
+            'Class' => 'Academic classes',
+            'Section' => 'Class sections',
+            'Year' => 'Academic years',
+            'Field' => 'Study fields',
+            'Option' => 'Study options',
+            'Group' => 'Student groups'
+        ];
 
-        };
+        foreach ($units as $name => $description) {
+            StructureUnit::create([
+                'unit_name' => $name
+            ]);
+        }
     }
 }

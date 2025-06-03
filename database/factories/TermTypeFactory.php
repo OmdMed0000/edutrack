@@ -14,10 +14,10 @@ class TermTypeFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            //
+            'term_type' => $this->faker->randomElement(['Trimestre', 'Semestre', 'Module']),
         ];
     }
 }

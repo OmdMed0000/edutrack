@@ -24,7 +24,7 @@ const links = {
     },
     { 
       pageName: 'Human Resources',
-      routeName: 'humanResources',
+      routeName: 'admin.humanResources',
       description: 'Manage staff and personnel'
     },
     { 
@@ -118,12 +118,12 @@ const icons = {
 };
 
 export default function SideBar({ darkMode, setDarkMode }) {
-
-
   const user = usePage().props.auth.user;
-  const role = usePage().props.auth.role.role_name;
+  const role = user.role.name;
   const routeName = usePage().props.routeName;
+ console.log(user);
  
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [hoverTimeout, setHoverTimeout] = useState(null);
 
@@ -240,7 +240,7 @@ export default function SideBar({ darkMode, setDarkMode }) {
           {/* Logout Button */}
           <Link
           href="/logout" 
-          method="post" 
+          method="get" 
           as="button"
            
             className={` flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm 2xl:text-xl font-medium
